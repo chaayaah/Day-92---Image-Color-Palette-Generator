@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Image Colour Palette</title>
+    <link href="{{ url_for('static', filename='css/styles.css')}}" rel="stylesheet">
+    <link class="jsbin" href="http://ajax.googleapis.com/ajax/libs/jqueryui/1/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+    <script class="jsbin" src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8.0/jquery-ui.min.js"></script>
+</head>
+<body>
+<h1>Image Colour Palette Generator</h1>
+<h3>Upload an image to generate a colour palette from it</h3>
+
+<form action="/submit" enctype="multipart/form-data" method="post">
+    <div class="file-button" >
+        <label for="asd">
+            Upload image
+            <input id="asd" name="file" type="file" onchange="readURL(this);">
+        </label>
+    </div>
+    <br>
+    <input class="submit-button" type="submit" value="Submit">
+    <br>
+    <img id="blah" src="#" alt="your image" />
+</form>
+
+{% if hex_success == True: %}
+<p>The Top 10 occurring colours in this image are shown below</p>
+
+{% for hex in palette_hex %}
+
+<div class="color-card">
+    <div class="show-color" style="background-color:{{ hex }};"></div>
+    <div class="show-hex-info">Hex Code: {{ hex }}</div>
+    <div class="show-rgb-info">RGB Code: {{ palette_rgb[loop.index - 1 ] }}</div>
+</div>
+<br>
+
+
+{% endfor %}
+
+{% endif %}
+</body>
+<script id="jsbin-javascript">
+     function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $('#blah')
+                        .attr('src', e.target.result)
+                        .width(150)
+                        .height(200);
+                };
+
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+</script>
+</html>
